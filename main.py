@@ -1,3 +1,4 @@
+import sys
 import pygame
 
 pygame.init()
@@ -5,9 +6,9 @@ pygame.init()
 width, height = 800, 600
 
 config = {
-    "fps": 60,
+    "ticks": 60,
     "size": (width, height),
-    "caption": "caption",
+    "caption": "Metropy",
     "icon": "images/d72fb4f666a872b84759bb9e636aedb1.png"
 }
 
@@ -16,6 +17,10 @@ pygame.display.set_caption(config["caption"])
 image = pygame.image.load(config['icon'])
 pygame.display.set_icon(image)
 
+ball2_radius = 20
+ball2_x = width/2
+ball2_y = height/2
+ball2_speed = 5
 # Set up ball properties
 ball_radius = 20
 ball_x = width // 2
@@ -26,14 +31,30 @@ clock = pygame.time.Clock()
 running = True
 
 while running:
-    clock.tick(config["fps"])
+
     screen.fill((255, 255, 255))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-
+    key = pygame.key.get_pressed()
+    if key[pygame.K_a]:
+        if ball2_x - ball2_radius < 0:
+            ball2_x = 0 + ball2_radius
+        ball2_x -= ball2_speed
+    if key[pygame.K_d]:
+        if ball2_x + ball2_radius > width:
+            ball2_x = width - ball2_radius
+        ball2_x += ball2_speed
+    if key[pygame.K_w]:
+        if ball2_y - ball2_radius < 0:
+            ball2_y = 0 + ball2_radius
+        ball2_y -= ball2_speed
+    if key[pygame.K_s]:
+        if ball2_y + ball2_radius > height:
+            ball2_y = height - ball2_radius
+        ball2_y += ball2_speed
     # Move the ball
     ball_x += ball_speed
 
@@ -45,12 +66,11 @@ while running:
     screen.fill((255, 255, 255))
 
     # Draw the ball
+    pygame.draw.circle(screen, (0, 200, 50), (int(ball2_x), int(ball2_y)), ball_radius)
     pygame.draw.circle(screen, (0, 0, 255), (int(ball_x), int(ball_y)), ball_radius)
-
+    if (ball_x, ball_y) == (ball2_x, ball2_y):
+        sys.exit()
     pygame.display.flip()
-
-    # Set the frames per second
-    clock.tick(60)
-
+    clock.tick(config["ticks"])
 
 pygame.quit()
