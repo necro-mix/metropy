@@ -4,4 +4,5 @@ ___
 This is my first game, and my first script with colaboration
 
 ## Tasks
-1. pass
+1. jump system
+2. background
