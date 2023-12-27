@@ -59,6 +59,9 @@ clock = pygame.time.Clock()
 # Set up initial jump variables
 jump = False
 
+# Draw the background onto a separate surface
+background_surface = pygame.Surface((WIDTH, HEIGHT))
+background_surface.blit(background_image, (0, 0))
 
 while True:
     for event in pygame.event.get():
@@ -90,12 +93,12 @@ while True:
             jump = False
             mono.jump_count = 10
 
-    # Draw the background
-    screen.blit(background_image, (0, 0))
+    # Update the display with the background surface
+    screen.blit(background_surface, (0, 0))
 
     # Draw the sprites
     all_sprites.draw(screen)
-
+    
     # Update the display
     pygame.display.flip()
 
